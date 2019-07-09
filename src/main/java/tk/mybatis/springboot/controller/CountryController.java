@@ -24,12 +24,12 @@
 
 package tk.mybatis.springboot.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tk.mybatis.springboot.model.Country;
@@ -72,6 +72,19 @@ public class CountryController {
         Country country = countryService.getById(id);
         result.addObject("country", country);
         return result;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/viewContent/{id}")
+    public String viewContent(@PathVariable Integer id) {
+        Country country = countryService.getById(id);
+        return JSON.toJSONString(country);
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/get/{id}")
+    @ResponseBody
+    public Object get(@PathVariable Integer id) {
+        Country country = countryService.getById(id);
+        return country;
     }
 
     @RequestMapping(value = "/delete/{id}")
